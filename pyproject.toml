@@ -1,0 +1,118 @@
+[tool.poetry]
+name = "fs.sharepointfs"
+version = "0.1.0"
+description = "Pyfilesystem2 implementation for Sharepoint"
+authors = ["foreverfaint <foreverfaint@gmail.com>"]
+homepage = "https://github.com/foreverfaint/fs-sharepointfs"
+repository = "https://github.com/foreverfaint/fs-sharepointfs"
+license = "MIT"
+readme = "README.md"
+keywords = ["filesystem", "Pyfilesystem2", "sharepoint"]
+classifiers = [
+	"License :: OSI Approved :: MIT License",
+  "Development Status :: 3 - Alpha",
+	# "Development Status :: 5 - Production/Stable",
+	"Intended Audience :: Developers",
+  "Topic :: Software Development :: Libraries",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+	"Programming Language :: Python :: 3.8",
+	"Programming Language :: Python :: 3.9",
+	"Programming Language :: Python :: 3.10",
+	"Programming Language :: Python :: 3.11",
+]
+packages = [
+    { include = "fs", from = "src" },
+]
+
+[tool.poetry.dependencies]
+python = ">=3.8.1,<4.0"
+fs = "~=2.4.16"
+office365-rest-python-client = "^2.5.10"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.2"
+pytest-cov = "^5.0.0"
+tox = "^4.15.1"
+black = "^24.4.2"
+pytest-dotenv = "^0.5.2"
+pre-commit = "^3.5.0"
+ruff = "^0.4.10"
+pytest-mock = "^3.14.0"
+
+[tool.black]
+line-length = 120
+target-version = ['py38']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.ruff]
+line-length = 120
+indent-width = 4
+lint.ignore = ["ANN", "ARG002", "B011", "COM812", "D", "DTZ", "EM", "ERA001", "FBT001", "FBT002", "FIX", "G004", "I", "N802", "N803", "N806", "N815", "N816", "PLR0912", "PLR0913", "PTH", "S101", "T201", "TD", "TRY003", "W191"]
+lint.select = ["ALL"]
+target-version = "py38"
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"fs/**" = ["PT"]
+"tests/**" = ["N999", "PT009", "PT011", "PT013"]
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "double"
+multiline-quotes = "double"
+
+[tool.pytest.ini_options]
+# any unknown marks applied with the @pytest.mark.name_of_the_mark decorator will trigger an error.
+addopts = "--strict-markers"
+# By default the plugin will not override any variables already defined in the process' environment. If you want that behavior, you have to use the env_override_existing_values setting:
+env_override_existing_values = 1
+env_files = [".test.env"]
+filterwarnings = [
+    "error",
+    "ignore::DeprecationWarning",
+]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
